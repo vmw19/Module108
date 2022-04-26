@@ -54,8 +54,8 @@ def test_2():
     print(f"The cheapest price is: {cheapest}")
     print(f"The most expensive price is: {most_expensive}")
 
-    def test_3():
-        print("cheapest product")
+def test_3():
+    print("cheapest product")
 
     # for print every dict/prod from mock_catalog
     # print only the the title of every product

@@ -5,9 +5,6 @@ from mock_data import mock_catalog
 
 app =  Flask('server')
 
-@app.route("/home")
-def home():
-    return "Hello there!"
 
 @app.route("/")
 def home():

@@ -75,25 +75,25 @@ def get_categories():
 def get_by_category(cat_name):
     results = []
 
-#add products whose category is equal to name
-for prod in mock_catalog:
-    if prod["category"].lower() == cat_name.lower():
-        results.append(prod)
+    #add products whose category is equal to name
+    for prod in mock_catalog:
+        if prod["category"].lower() == cat_name.lower():
+            results.append(prod)
 
-return json.dumps(results)
+    return json.dumps(results)
 
 #search by text inside the title
 #receive a text
 #return all product whose title contains the text
 @app.route("/api/products/search/<text>")
 def search_by_text(text):
-     results = []
+    results = []
 
 #search and add
     for prod in mock_catalog:
         title = prod["title"].lower()
         if text.lower() in title:
-        results.append(prod)
+            results.append(prod)
 
     return json.dumps(results)
 

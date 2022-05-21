@@ -2,6 +2,7 @@
 from flask import Flask 
 import json
 from mock_data import mock_catalog
+from config import db
 
 app =  Flask('server')
 
@@ -24,7 +25,24 @@ def about():
 
 @app.route("/api/catalog")  
 def get_catalog():
-    return  json.dumps(mock_catalog)
+    cursor = db.products.find({}) # get all
+    all_products = []
+
+    for prod in cursor:
+        prod["_id"] = str(prod["id"])
+        all_products.append(prod)
+
+@app.route("/api/catalog", methods=["post"])
+def save_product():
+    product = request.get_json()
+    db.products.insert_one(product)
+
+    print("Product saved!")
+    print(product)
+
+    product["_id"] = str(product["_id"])
+
+    return json.dumps(product)
 
 #/api/catalog/cheapest
 # returns the cheapest product in the catalog
@@ -35,6 +53,7 @@ def get_cheapest():
         if prod["price"] <solution ["price"]:
             solution = prod
 
+    solution["_id"] = str(solution["_id"])
     return json.dumps(solution)
 
 #/api/catalog/total

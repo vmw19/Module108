@@ -20,3 +20,8 @@ mac:
 
 # install
 python3 -m pip install <name>
+
+or 
+
+ pip install <name>
+

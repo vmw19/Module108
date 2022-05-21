@@ -1,6 +1,6 @@
 mock_catalog = [
     {
-    "_id": "Connection was refused by server",
+    "_id": "Connectionwasrefusedbyserver1",
     "title": "Black Heels",
     "category": "Heels",
     "price": 10.00,
@@ -8,7 +8,7 @@ mock_catalog = [
 },
 
 {
-    "_id": "Connection was refused by server",
+    "_id": "Connectionwasrefusedbyserver2",
     "title": "Blue Heels",
     "category": "Heels",
     "price": 15.00,
@@ -16,7 +16,7 @@ mock_catalog = [
 },
 
 {
-    "_id": "",
+    "_id": "Connectionwasrefusedbyserver3",
     "title": "Pink Heels",
     "category": "Heels",
     "price": 17.00,
@@ -24,7 +24,7 @@ mock_catalog = [
 },
 
 {
-    "_id": "Connection was refused by server",
+    "_id": "Connectionwasrefusedbyserver4",
     "title": "Green Ankle",
     "category": "Heels",
     "price": 16.00,
@@ -32,7 +32,7 @@ mock_catalog = [
 },
 
 {
-    "_id": "Connection was refused by server",
+    "_id": "Connectionwasrefusedbyserver5",
     "title": "Green Booties",
     "category": "Booties",
     "price": 18.00,

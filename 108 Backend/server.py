@@ -1,8 +1,9 @@
 
-from flask import Flask 
+from flask import Flask, request, abort 
 import json
 from mock_data import mock_catalog
 from config import db
+from bson import ObjectId
 
 app =  Flask('server')
 
@@ -29,8 +30,11 @@ def get_catalog():
     all_products = []
 
     for prod in cursor:
-        prod["_id"] = str(prod["id"])
+        prod["_id"] = str(prod["_id"])
         all_products.append(prod)
+
+        return json.dumps(all_products)
+    
 
 @app.route("/api/catalog", methods=["post"])
 def save_product():
@@ -69,9 +73,10 @@ def get_total():
 #find a product based on the unique id
 @app.route("/api/product/<id>")
 def find_product(id):
-    for prod in mock_catalog:
-        if id == prod["_id"]:
-            return json.dumps(prod)
+    prod = db.products.find_one({"_id": ObjectId(id) })
+    prod["id"] = str(prod["_id"])
+
+    return json.dumps(prod)
 
 #get the list of categories from the catalog
 #/api/products/categories
@@ -79,9 +84,9 @@ def find_product(id):
 @app.route("/api/product/categories")
 def get_categories():
     categories = []
-
+    cursor = db.products.find({})
     #push all the categories into the list
-    for prod in mock_catalog:
+    for prod in cursor:
         cat = prod["category"]
         if not cat in categories:
             categories.append(cat)
@@ -93,6 +98,11 @@ def get_categories():
 @app.route("/api/product/category/<cat_name>")
 def get_by_category(cat_name):
     results = []
+    cursor = db.products.find({"category": cat_name})
+# get the products from the cursor, fix the _id, put them on results
+    for prod in cursor:
+        prod["id"] = str(prod["_id"])
+        results.append
 
     #add products whose category is equal to name
     for prod in mock_catalog:
@@ -120,3 +130,49 @@ def search_by_text(text):
 #start the server
 app.run(debug=True)
 
+##################################################### Coupon Codes ################# _id, code, discount############################################
+# 1 - get /api/couponCodes
+@app.get("/api/couponCodes")
+def get_coupon_codes():
+    cursor = db.couponCodes.find({})
+    results = []
+    for coupon in cursor:
+        coupon["_id"]= str(coupon["_id"])
+        results.append(coupon)
+
+    return json.dumps(results)
+
+# #2 - get /api/couponCodes/<code>
+@app.get("/api/couponCodes/<code>")
+def get_by_code(code):
+    coupon = db.couponCodes.find_one{{"code":code})
+    if not coupon:
+        return abort (400, "Invalid coupon code")
+
+    coupon["_id"]= str(coupon["_id"])
+
+    return json.dumps(coupon)
+
+# #3 - POST /api/couponCodes
+
+@app.post("/api/couponCodes")
+def save_coupon():
+    coupon = request.get_json()
+
+#validate that code exists and contains at least 5 chars
+    if not "code" in coupon or len(coupon["code"]) < 5:
+     return abort(400, "Code is required and should contain at least 5 chars.")
+
+#validate that code is not over 31%
+    if not "discount" in coupon or type(coupon["discount"]) is not type(int) or type(coupon)["discount"]: != type(float):
+        return abort(400, "Discount is required and should be a valid number.")
+
+    if not ["discount"] < 0 or coupon ["discount"] > 31:
+        return abort(400, "Discount is required and should be between 0 and 31.")
+
+    db.couponCoupon.insert_one(coupon)
+    coupon["_id"]= str(coupon["_id"])
+
+    return json.dumps(coupon)
+
+app.run(debug=True)

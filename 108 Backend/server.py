@@ -145,7 +145,7 @@ def get_coupon_codes():
 # #2 - get /api/couponCodes/<code>
 @app.get("/api/couponCodes/<code>")
 def get_by_code(code):
-    coupon = db.couponCodes.find_one{{"code":code})
+    coupon = db.couponCodes.find_one({"code":code})
     if not coupon:
         return abort (400, "Invalid coupon code")
 
@@ -164,11 +164,11 @@ def save_coupon():
      return abort(400, "Code is required and should contain at least 5 chars.")
 
 #validate that code is not over 31%
-    if not "discount" in coupon or type(coupon["discount"]) is not type(int) or type(coupon)["discount"]: != type(float):
-        return abort(400, "Discount is required and should be a valid number.")
+    if not "discount" in coupon or type(coupon["discount"]) is not type(int) or type(coupon)["discount"]: is not type(float):
+    return abort(400, "Discount is required and should be a valid number.")
 
     if not ["discount"] < 0 or coupon ["discount"] > 31:
-        return abort(400, "Discount is required and should be between 0 and 31.")
+    return abort(400, "Discount is required and should be between 0 and 31.")
 
     db.couponCoupon.insert_one(coupon)
     coupon["_id"]= str(coupon["_id"])
